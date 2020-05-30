@@ -1,4 +1,3 @@
-#include <experimental/filesystem>
 #include <iostream>
 #include <cstring>
 #include <string>
@@ -6,6 +5,7 @@
 
 #include <sys/types.h>
 #include <sys/socket.h>
+#include <sys/stat.h>
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <unistd.h>
@@ -13,7 +13,6 @@
 #include <stdlib.h>
 
 using namespace std;
-namespace fs = std::experimental::filesystem;
 
 void client(int acc);
 bool find_file(char *msg);
@@ -86,7 +85,9 @@ void client(int acc)
 	}
 	
 	// int and string file size
-	int file_size = fs::file_size(fs::path(file_path));
+	struct stat st;
+	stat(file_path, &st);
+	int file_size = st.st_size;
 	std::string str_file_size(std::to_string(file_size));
 	
 	// send headers

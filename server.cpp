@@ -76,7 +76,7 @@ void client(int acc)
 	// if file not found - 404 response	
 	if (fd == -1)
 	{
-		send(acc,"HTTP/1.0 404 NOT FOUND\nContent-Length: 0\n", 41, 0);
+		send(acc,"HTTP/1.0 404 NOT FOUND\r\nContent-Length: 0\r\n", 43, 0);
 		shutdown(acc, SHUT_RDWR);
 		close(fd);
 		free(msg);
@@ -91,29 +91,25 @@ void client(int acc)
 	std::string str_file_size(std::to_string(file_size));
 	
 	// send headers
-	for(int i = 0; i < 17; i++) response.push_back("HTTP/1.0 200 OK\n"[i]);
+	for(int i = 0; i < 17; i++) response.push_back("HTTP/1.0 200 OK\r\n"[i]);
 	for(int i = 0; i < 16; i++) response.push_back("Content-Length: "[i]);
 	for(int i = 0; i < str_file_size.size(); i++) response.push_back(str_file_size.c_str()[i]);
 	if (strstr(file_path, ".html"))
 	{
-		for(int i = 0; i < 25; i++) response.push_back("Content-Type: text/html\n"[i]);
+		for(int i = 0; i < 25; i++) response.push_back("\r\nContent-Type: text/html"[i]);
 	}
-	response.push_back('\n');
-	response.push_back('\n');
+	for(int i = 0; i < 4; i++) response.push_back("\r\n\r\n"[i]);
 
 	// send file
 	free(msg);
 	msg = (char*)malloc(file_size*sizeof(char));
 
 	read(fd, msg, file_size);
-	for (int i = 0; i < file_size; i++)
-	{
-		response.push_back(msg[i]);
-	}
-		
-	int resp_size = response.size();
-	send(acc, response.c_str(), resp_size, 0);
+	for (int i = 0; i < file_size; i++) response.push_back(msg[i]);
 	
+	response.size();
+	send(acc, response.c_str(), response.size(), 0);
+
 	// close connection, file and free memory
 	shutdown(acc, SHUT_RDWR);
 	close(fd);

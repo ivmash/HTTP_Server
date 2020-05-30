@@ -58,7 +58,7 @@ void client(int acc)
 	// file path processing
 	char* file_path = (char*)malloc(128*sizeof(char));
 
-	for (i = 0; (msg[4+i] != ' ') && (msg[4+i] != EOF) && (msg[4+i] != '\n'); i++)
+	for (i = 0; (msg[4+i] != ' ') && (msg[4+i] != EOF) && (msg[4+i] != '\n') && (msg[4+i] != '?'); i++)
 	{
 		file_path[i] = msg[4+i];
 	}

@@ -94,6 +94,10 @@ void client(int acc)
 	for(int i = 0; i < 17; i++) response.push_back("HTTP/1.0 200 OK\n"[i]);
 	for(int i = 0; i < 16; i++) response.push_back("Content-Length: "[i]);
 	for(int i = 0; i < str_file_size.size(); i++) response.push_back(str_file_size.c_str()[i]);
+	if (strstr(file_path, ".html"))
+	{
+		for(int i = 0; i < 25; i++) response.push_back("Content-Type: text/html\n"[i]);
+	}
 	response.push_back('\n');
 	response.push_back('\n');
 

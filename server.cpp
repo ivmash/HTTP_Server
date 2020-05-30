@@ -81,6 +81,7 @@ void client(int acc)
 		close(fd);
 		free(msg);
 		free(file_path-offset);
+		close(acc);
 		return;
 	}
 	
@@ -115,6 +116,7 @@ void client(int acc)
 	close(fd);
 	free(msg);
 	free(file_path-offset);
+	close(acc);
 }
 
 int set_nonblock(int fd)
